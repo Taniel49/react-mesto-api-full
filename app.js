@@ -1,4 +1,3 @@
-const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -25,8 +24,10 @@ app.use((req, res, next) => {
 });
 app.use('/', users);
 app.use('/', cards);
+app.use('*', (res, req) => {
+  res.status(404).send({ message: `Страница ${req.baseUrl} не найдена` });
+});
 
-app.use(express.static(path.join(__dirname, 'public')));
 app.listen(PORT, () => {
   console.log('Ссылка на сервер');
   console.log(BASE_PATH);
