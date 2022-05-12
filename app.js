@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 app.use('/', users);
 app.use('/', cards);
 router.use('*', (res, req) => {
-  res.type('txt').status(404).send(JSON.stringify({ message: `Страница ${req.baseUrl} не найдена` }));
+  res.status(404).send(JSON.stringify({ message: `Страница ${req.baseUrl} не найдена` }));
 });
 
 app.listen(PORT, () => {
