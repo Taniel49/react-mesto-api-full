@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "express app.js",
-    "start": "nodemon app.js",
+    "dev": "nodemon app.js",
+    "start": "express app.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint:fix": "eslint . --fix"
+    "lint": "npx eslint .",
+    "lint:fix": "npx eslint . --fix"
   },
   "author": "Mikhail Butyrskiy",
   "license": "ISC",

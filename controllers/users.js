@@ -1,5 +1,4 @@
 const User = require('../models/user');
-const ValidationError = require('../errors/ValidationError');
 const NotFoundError = require('../errors/NotFoundError');
 
 module.exports.createUser = (req, res) => {
@@ -7,13 +6,10 @@ module.exports.createUser = (req, res) => {
 
   User.create({ name, about, avatar })
     .then((user) => {
-      if (!user) {
-        throw new NotFoundError('NotFoundError');
-      }
       res.send({ data: user });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Переданы некорректные данные' });
       }
       return res.status(500).send({ message: 'Произошла ошибка' });
@@ -29,16 +25,13 @@ module.exports.getAllUsers = (req, res) => {
 module.exports.getUser = (req, res) => {
   User.find({ _id: req.user._id })
     .then((user) => {
-      if (!user._id.isValid) {
-        throw new ValidationError('ValidationError');
-      }
       if (!user) {
         throw new NotFoundError('NotFoundError');
       }
       res.send({ data: user });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Переданы некорректные данные' });
       }
       if (err.name === 'NotFoundError') {
@@ -55,16 +48,13 @@ module.exports.patchUser = (req, res) => {
     runValidators: true,
   })
     .then((user) => {
-      if (!user._id.isValid) {
-        throw new ValidationError('ValidationError');
-      }
       if (!user) {
         throw new NotFoundError('NotFoundError');
       }
       res.send({ data: user });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Переданы некорректные данные' });
       }
       if (err.name === 'NotFoundError') {
@@ -81,16 +71,13 @@ module.exports.patchAvatar = (req, res) => {
     runValidators: true,
   })
     .then((user) => {
-      if (!user._id.isValid) {
-        throw new ValidationError('ValidationError');
-      }
       if (!user) {
         throw new NotFoundError('NotFoundError');
       }
       res.send({ data: user });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Переданы некорректные данные' });
       }
       if (err.name === 'NotFoundError') {
