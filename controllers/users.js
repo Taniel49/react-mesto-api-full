@@ -23,9 +23,7 @@ module.exports.getAllUsers = (req, res) => {
 };
 
 module.exports.getUser = (req, res) => {
-  const { userId } = req.params;
-
-  User.find({ _id: userId })
+  User.find({ _id: req.params.userId })
     .then((user) => {
       if (!user) {
         throw new NotFoundError('NotFoundError');

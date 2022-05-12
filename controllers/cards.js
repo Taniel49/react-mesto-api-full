@@ -23,7 +23,7 @@ module.exports.getAllCards = (req, res) => {
 };
 
 module.exports.deleteCard = (req, res) => {
-  Card.findOneAndRemove({ _id: req.params.objectId })
+  Card.findOneAndRemove({ _id: req.params.cardId })
     .then((card) => {
       if (!card) {
         throw new NotFoundError('NotFoundError');
