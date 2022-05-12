@@ -9,7 +9,7 @@ module.exports.createUser = (req, res) => {
       res.send({ data: user });
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'ValidationError') {
         return res.status(400).send({ message: 'Переданы некорректные данные' });
       }
       return res.status(500).send({ message: 'Произошла ошибка' });
@@ -23,7 +23,9 @@ module.exports.getAllUsers = (req, res) => {
 };
 
 module.exports.getUser = (req, res) => {
-  User.find({ _id: req.user._id })
+  const { userId } = req.params;
+
+  User.find({ _id: userId })
     .then((user) => {
       if (!user) {
         throw new NotFoundError('NotFoundError');
@@ -54,8 +56,11 @@ module.exports.patchUser = (req, res) => {
       res.send({ data: user });
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'ValidationError') {
         return res.status(400).send({ message: 'Переданы некорректные данные' });
+      }
+      if (err.name === 'CastError') {
+        return res.status(400).send({ message: 'Передан некорректный токен' });
       }
       if (err.name === 'NotFoundError') {
         return res.status(404).send({ message: 'Пользователь не найден' });
@@ -77,8 +82,11 @@ module.exports.patchAvatar = (req, res) => {
       res.send({ data: user });
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
+      if (err.name === 'ValidationError') {
         return res.status(400).send({ message: 'Переданы некорректные данные' });
+      }
+      if (err.name === 'CastError') {
+        return res.status(400).send({ message: 'Передан некорректный токен' });
       }
       if (err.name === 'NotFoundError') {
         return res.status(404).send({ message: 'Пользователь не найден' });
