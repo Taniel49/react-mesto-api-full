@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const router = require('express').Router();
 const users = require('./routes/users');
 const cards = require('./routes/cards');
 
@@ -24,7 +25,7 @@ app.use((req, res, next) => {
 });
 app.use('/', users);
 app.use('/', cards);
-app.use('*', (res, req) => {
+router.use('*', (res, req) => {
   res.status(404).send({ message: `Страница ${req.baseUrl} не найдена` });
 });
 
