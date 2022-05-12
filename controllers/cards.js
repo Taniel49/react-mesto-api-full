@@ -1,6 +1,4 @@
-const mongoose = require('mongoose');
 const Card = require('../models/card');
-const ValidationError = require('../errors/ValidationError');
 const NotFoundError = require('../errors/NotFoundError');
 
 module.exports.createCard = (req, res) => {
@@ -8,13 +6,10 @@ module.exports.createCard = (req, res) => {
 
   Card.create({ name, link, owner: req.user._id })
     .then((card) => {
-      if (!card) {
-        throw new NotFoundError('NotFoundError');
-      }
       res.send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Переданы некорректные данные' });
       }
       return res.status(500).send({ message: 'Произошла ошибка' });
@@ -30,16 +25,13 @@ module.exports.getAllCards = (req, res) => {
 module.exports.deleteCard = (req, res) => {
   Card.findOneAndRemove({ _id: req.params.objectId })
     .then((card) => {
-      if (!mongoose.Types.ObjectId.isValid) {
-        throw new ValidationError('ValidationError');
-      }
       if (!card) {
         throw new NotFoundError('NotFoundError');
       }
       res.send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Переданы некорректные данные' });
       }
       if (err.name === 'NotFoundError') {
@@ -56,16 +48,13 @@ module.exports.putLike = (req, res) => {
     { new: true },
   )
     .then((card) => {
-      if (!mongoose.Types.ObjectId.isValid) {
-        throw new ValidationError('ValidationError');
-      }
       if (!card) {
         throw new NotFoundError('NotFoundError');
       }
       res.send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Переданы некорректные данные' });
       }
       if (err.name === 'NotFoundError') {
@@ -82,16 +71,13 @@ module.exports.deleteLike = (req, res) => {
     { new: true },
   )
     .then((card) => {
-      if (!mongoose.Types.ObjectId.isValid) {
-        throw new ValidationError('ValidationError');
-      }
       if (!card) {
         throw new NotFoundError('NotFoundError');
       }
       res.send({ data: card });
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
+      if (err.name === 'CastError') {
         return res.status(400).send({ message: 'Переданы некорректные данные' });
       }
       if (err.name === 'NotFoundError') {
