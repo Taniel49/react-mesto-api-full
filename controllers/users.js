@@ -28,9 +28,9 @@ module.exports.getAllUsers = (req, res) => {
 };
 
 module.exports.getUser = (req, res) => {
-  User.find({ _id: req.params.objectId })
+  User.find({ _id: req.user._id })
     .then((user) => {
-      if (mongoose.Types.ObjectId.isValid) {
+      if (!user._id.isValid) {
         throw new ValidationError('ValidationError');
       }
       if (!user) {
@@ -56,7 +56,7 @@ module.exports.patchUser = (req, res) => {
     runValidators: true,
   })
     .then((user) => {
-      if (mongoose.Types.ObjectId.isValid) {
+      if (!user._id.isValid) {
         throw new ValidationError('ValidationError');
       }
       if (!user) {
@@ -82,7 +82,7 @@ module.exports.patchAvatar = (req, res) => {
     runValidators: true,
   })
     .then((user) => {
-      if (mongoose.Types.ObjectId.isValid) {
+      if (!user._id.isValid) {
         throw new ValidationError('ValidationError');
       }
       if (!user) {
