@@ -1,7 +1,9 @@
+const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
+const ValidationError = require('../errors/ValidationError');
 
 module.exports.createUser = (req, res, next) => {
   const {
@@ -21,15 +23,18 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
     }))
     .then((user) => {
+      if (!user) {
+        throw new ValidationError('Неверные данные');
+      }
       res.send({ data: user });
     })
     .catch((err) => next(err));
 };
 
-module.exports.getAllUsers = (req, res) => {
+module.exports.getAllUsers = (req, res, next) => {
   User.find({})
     .then((user) => res.send({ data: user }))
-    .catch(() => res.status(500).send({ message: 'Произошла ошибка' }));
+    .catch((err) => next(err));
 };
 
 module.exports.getUser = (req, res, next) => {
@@ -37,6 +42,9 @@ module.exports.getUser = (req, res, next) => {
     .then((user) => {
       if (!user) {
         throw new NotFoundError('NotFoundError');
+      }
+      if (!mongoose.Types.ObjectId.isValid) {
+        throw new ValidationError('Неверный ID');
       }
       res.send({ data: user });
     })
@@ -50,6 +58,9 @@ module.exports.patchUser = (req, res, next) => {
     runValidators: true,
   })
     .then((user) => {
+      if (!user) {
+        throw new ValidationError('Неверные данные');
+      }
       if (!user) {
         throw new NotFoundError('NotFoundError');
       }
@@ -66,6 +77,9 @@ module.exports.patchAvatar = (req, res, next) => {
   })
     .then((user) => {
       if (!user) {
+        throw new ValidationError('Неверные данные');
+      }
+      if (!user) {
         throw new NotFoundError('NotFoundError');
       }
       res.send({ data: user });
@@ -76,26 +90,14 @@ module.exports.patchAvatar = (req, res, next) => {
 module.exports.login = (req, res) => {
   const { email, password } = req.body;
 
-  User.findOne({ email }).select('+password')
+  return User.findUserByCredentials(email, password)
     .then((user) => {
-      if (!user) {
-        return Promise.reject(new Error('Неправильные почта или пароль'));
-      }
-
-      return bcrypt.compare(password, user.password);
-    })
-    .then((matched) => {
-      if (!matched) {
-        return Promise.reject(new Error('Неправильные почта или пароль'));
-      }
-      const token = jwt.sign({ _id: '6273f7158a9095fb2ba1710d' }, 'some-secret-key', { expiresIn: '7d' });
-
-      return res.send({ token });
+      res.send({
+        token: jwt.sign({ _id: user._id }, 'super-strong-secret', { expiresIn: '7d' }),
+      });
     })
     .catch((err) => {
-      res
-        .status(401)
-        .send({ message: err.message });
+      res.status(401).send({ message: err.message });
     });
 };
 
