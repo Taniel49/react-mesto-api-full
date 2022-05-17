@@ -1,11 +1,16 @@
+const mongoose = require('mongoose');
 const Card = require('../models/card');
 const NotFoundError = require('../errors/NotFoundError');
+const ValidationError = require('../errors/ValidationError');
 
 module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: req.user._id })
     .then((card) => {
+      if (!card) {
+        throw new ValidationError('Неверные данные');
+      }
       res.send({ data: card });
     })
     .catch((err) => next(err));
@@ -13,26 +18,23 @@ module.exports.createCard = (req, res, next) => {
 
 module.exports.getAllCards = (req, res, next) => {
   Card.find({})
-    .then((user) => res.send({ data: user }))
+    .then((card) => res.send({ data: card }))
     .catch((err) => next(err));
 };
 
 module.exports.deleteCard = (req, res, next) => {
-  try {
-    req.params.cardId = Card.owner;
-  } catch (err) {
-    return res
-      .status(400)
-      .send({ message: 'Нет прав на удаление карточки' });
-  }
-  Card.findOneAndRemove({ _id: req.params.cardId })
+  Card.findById(req.params.cardId)
     .then((card) => {
-      if (!card) {
-        throw new NotFoundError('NotFoundError');
-      }
-      res.send({ data: card });
-    })
-    .catch((err) => next(err));
+      if (req.params.cardId !== card.owner) { throw new ValidationError('ValidationError'); }
+      Card.findOneAndRemove({ _id: req.params.cardId })
+        .then(() => {
+          if (!card) {
+            throw new NotFoundError('NotFoundError');
+          }
+          res.send({ data: card });
+        })
+        .catch((err) => next(err));
+    });
 };
 
 module.exports.putLike = (req, res, next) => {
@@ -44,6 +46,9 @@ module.exports.putLike = (req, res, next) => {
     .then((card) => {
       if (!card) {
         throw new NotFoundError('NotFoundError');
+      }
+      if (!mongoose.Types.ObjectId.isValid) {
+        throw new ValidationError('Неверный ID');
       }
       res.send({ data: card });
     })
@@ -59,6 +64,9 @@ module.exports.deleteLike = (req, res, next) => {
     .then((card) => {
       if (!card) {
         throw new NotFoundError('NotFoundError');
+      }
+      if (!mongoose.Types.ObjectId.isValid) {
+        throw new ValidationError('Неверный ID');
       }
       res.send({ data: card });
     })
