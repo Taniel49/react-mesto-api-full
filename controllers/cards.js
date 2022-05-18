@@ -17,6 +17,7 @@ module.exports.createCard = (req, res, next) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError('Неверные данные'));
       }
+      next(err);
     });
 };
 
@@ -46,6 +47,7 @@ module.exports.deleteCard = (req, res, next) => {
           if (err.name === 'CastError') {
             next(new CastError('Неверный ID'));
           }
+          next(err);
         });
     });
 };
@@ -69,6 +71,7 @@ module.exports.putLike = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new CastError('Неверный ID'));
       }
+      next(err);
     });
 };
 
@@ -91,5 +94,6 @@ module.exports.deleteLike = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new CastError('Неверный ID'));
       }
+      next(err);
     });
 };

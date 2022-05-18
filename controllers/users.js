@@ -30,6 +30,7 @@ module.exports.createUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError('Неверные данные'));
       }
+      next(err);
     });
 };
 
@@ -54,6 +55,7 @@ module.exports.getUser = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new CastError('Неверный ID'));
       }
+      next(err);
     });
 };
 
@@ -79,6 +81,7 @@ module.exports.patchUser = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new CastError('Неверный ID'));
       }
+      next(err);
     });
 };
 
@@ -104,6 +107,7 @@ module.exports.patchAvatar = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new CastError('Неверный ID'));
       }
+      next(err);
     });
 };
 
@@ -132,6 +136,7 @@ module.exports.login = (req, res, next) => {
       if (err.name === 'Unauthorized') {
         next(new AuthError('Ошибка авторизации'));
       }
+      next(err);
     });
 };
 
@@ -150,5 +155,6 @@ module.exports.getCurrentUser = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new CastError('Неверный ID'));
       }
+      next(err);
     });
 };
