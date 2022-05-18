@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const ValidationError = require('../errors/ValidationError');
+const CastError = require('../errors/CastError');
+const AuthError = require('../errors/AufError');
 
 module.exports.createUser = (req, res, next) => {
   const {
@@ -23,12 +24,13 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
     }))
     .then((user) => {
-      if (!user) {
-        throw new ValidationError('Неверные данные');
-      }
       res.send({ data: user });
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new ValidationError('Неверные данные'));
+      }
+    });
 };
 
 module.exports.getAllUsers = (req, res, next) => {
@@ -43,12 +45,16 @@ module.exports.getUser = (req, res, next) => {
       if (!user) {
         throw new NotFoundError('NotFoundError');
       }
-      if (!mongoose.Types.ObjectId.isValid) {
-        throw new ValidationError('Неверный ID');
-      }
       res.send({ data: user });
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      if (err.name === 'NotFoundError') {
+        next(new NotFoundError('NotFoundError'));
+      }
+      if (err.name === 'CastError') {
+        next(new CastError('Неверный ID'));
+      }
+    });
 };
 
 module.exports.patchUser = (req, res, next) => {
@@ -59,14 +65,21 @@ module.exports.patchUser = (req, res, next) => {
   })
     .then((user) => {
       if (!user) {
-        throw new ValidationError('Неверные данные');
-      }
-      if (!user) {
         throw new NotFoundError('NotFoundError');
       }
       res.send({ data: user });
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new ValidationError('Неверные данные'));
+      }
+      if (err.name === 'NotFoundError') {
+        next(new NotFoundError('NotFoundError'));
+      }
+      if (err.name === 'CastError') {
+        next(new CastError('Неверный ID'));
+      }
+    });
 };
 
 module.exports.patchAvatar = (req, res, next) => {
@@ -77,27 +90,48 @@ module.exports.patchAvatar = (req, res, next) => {
   })
     .then((user) => {
       if (!user) {
-        throw new ValidationError('Неверные данные');
-      }
-      if (!user) {
         throw new NotFoundError('NotFoundError');
       }
       res.send({ data: user });
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new ValidationError('Неверные данные'));
+      }
+      if (err.name === 'NotFoundError') {
+        next(new NotFoundError('NotFoundError'));
+      }
+      if (err.name === 'CastError') {
+        next(new CastError('Неверный ID'));
+      }
+    });
 };
 
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
+      if (!user) {
+        throw new NotFoundError('NotFoundError');
+      }
       res.send({
         token: jwt.sign({ _id: user._id }, 'super-strong-secret', { expiresIn: '7d' }),
       });
     })
     .catch((err) => {
-      res.status(401).send({ message: err.message });
+      if (err.name === 'ValidationError') {
+        next(new ValidationError('Неверные данные'));
+      }
+      if (err.name === 'NotFoundError') {
+        next(new NotFoundError('NotFoundError'));
+      }
+      if (err.name === 'CastError') {
+        next(new CastError('Неверный ID'));
+      }
+      if (err.name === 'Unauthorized') {
+        next(new AuthError('Ошибка авторизации'));
+      }
     });
 };
 
@@ -109,5 +143,12 @@ module.exports.getCurrentUser = (req, res, next) => {
       }
       res.send({ data: user });
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      if (err.name === 'NotFoundError') {
+        next(new NotFoundError('NotFoundError'));
+      }
+      if (err.name === 'CastError') {
+        next(new CastError('Неверный ID'));
+      }
+    });
 };

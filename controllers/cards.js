@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
 const Card = require('../models/card');
 const NotFoundError = require('../errors/NotFoundError');
 const ValidationError = require('../errors/ValidationError');
+const CastError = require('../errors/CastError');
 
 module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
@@ -13,7 +13,11 @@ module.exports.createCard = (req, res, next) => {
       }
       res.send({ data: card });
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new ValidationError('Неверные данные'));
+      }
+    });
 };
 
 module.exports.getAllCards = (req, res, next) => {
@@ -25,7 +29,6 @@ module.exports.getAllCards = (req, res, next) => {
 module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
     .then((card) => {
-      if (req.params.cardId !== card.owner) { throw new ValidationError('ValidationError'); }
       Card.findOneAndRemove({ _id: req.params.cardId })
         .then(() => {
           if (!card) {
@@ -33,7 +36,17 @@ module.exports.deleteCard = (req, res, next) => {
           }
           res.send({ data: card });
         })
-        .catch((err) => next(err));
+        .catch((err) => {
+          if (err.name === 'ValidationError') {
+            next(new ValidationError('Неверные данные'));
+          }
+          if (err.name === 'NotFoundError') {
+            next(new NotFoundError('NotFoundError'));
+          }
+          if (err.name === 'CastError') {
+            next(new CastError('Неверный ID'));
+          }
+        });
     });
 };
 
@@ -47,12 +60,16 @@ module.exports.putLike = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('NotFoundError');
       }
-      if (!mongoose.Types.ObjectId.isValid) {
-        throw new ValidationError('Неверный ID');
-      }
       res.send({ data: card });
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      if (err.name === 'NotFoundError') {
+        next(new NotFoundError('NotFoundError'));
+      }
+      if (err.name === 'CastError') {
+        next(new CastError('Неверный ID'));
+      }
+    });
 };
 
 module.exports.deleteLike = (req, res, next) => {
@@ -65,10 +82,14 @@ module.exports.deleteLike = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('NotFoundError');
       }
-      if (!mongoose.Types.ObjectId.isValid) {
-        throw new ValidationError('Неверный ID');
-      }
       res.send({ data: card });
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      if (err.name === 'NotFoundError') {
+        next(new NotFoundError('NotFoundError'));
+      }
+      if (err.name === 'CastError') {
+        next(new CastError('Неверный ID'));
+      }
+    });
 };
