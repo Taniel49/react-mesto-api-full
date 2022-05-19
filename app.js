@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
 const router = require('express').Router();
 const ValidationError = require('./errors/ValidationError');
+const auth = require('./middlewares/auth');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
 const {
@@ -38,8 +39,8 @@ app.post('/signup', celebrate({
   }),
 }), createUser);
 
-app.use('/', users);
-app.use('/', cards);
+app.use('/', auth, users);
+app.use('/', auth, cards);
 // eslint-disable-next-line no-unused-vars
 router.use('*', (res, req) => {
   throw new ValidationError('Страница не найдена');
