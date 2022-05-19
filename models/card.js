@@ -12,7 +12,8 @@ const cardSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator(v) {
-        return /^(https?:\/\/)?([\da-z.-]+).([a-z.]{2,6})([w.-])\/?$/.test(v);
+        // eslint-disable-next-line
+        return /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/=]*)/.test(v);
       },
       message: 'Неверная ссылка',
     },
