@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const { celebrate, Joi, errors } = require('celebrate');
 const router = require('express').Router();
 const ValidationError = require('./errors/ValidationError');
-const auth = require('./middlewares/auth');
 const users = require('./routes/users');
 const cards = require('./routes/cards');
 const {
@@ -34,11 +33,11 @@ app.post('/signup', celebrate({
     password: Joi.string().required(),
     name: Joi.string().min(2).max(30),
     // eslint-disable-next-line
-    avatar: Joi.string().regex(/[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/=]*)/),
+    avatar: Joi.string().regex(/[(http(s)?):\/\/(www\.)?a-zA-Z0-9\-]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/=]*#?)/),
     about: Joi.string().min(2).max(30),
   }),
 }), createUser);
-app.use(auth);
+
 app.use('/', users);
 app.use('/', cards);
 // eslint-disable-next-line no-unused-vars

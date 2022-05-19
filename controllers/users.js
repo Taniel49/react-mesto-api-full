@@ -8,6 +8,7 @@ const AuthError = require('../errors/AufError');
 const ConflictError = require('../errors/ConflictError');
 
 module.exports.createUser = (req, res, next) => {
+  console.log('user');
   const {
     name,
     about,
@@ -24,7 +25,10 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
     }))
     .then((user) => {
-      res.send({ data: user });
+      res.send({
+        _id: user._id,
+        email: user.email,
+      });
     })
     .catch((err) => {
       if (err.code === 11000) {
