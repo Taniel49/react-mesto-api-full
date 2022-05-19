@@ -15,14 +15,7 @@ module.exports.createUser = (req, res, next) => {
     email,
     password,
   } = req.body;
-
-  User.findOne({ email })
-    .then((user) => {
-      if (user) {
-        throw new ConflictError('Пользователь с таким email уже существует');
-      }
-    })
-    .then(() => bcrypt.hash(password, 10))
+  bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name,
       about,
@@ -34,7 +27,7 @@ module.exports.createUser = (req, res, next) => {
       res.send({ data: user });
     })
     .catch((err) => {
-      if (err.name === 'ConflictError') {
+      if (err.code === 11000) {
         next(new ConflictError('Пользователь с таким email уже существует'));
       } else if (err.name === 'ValidationError') {
         next(new ValidationError('Неверные данные'));
@@ -116,9 +109,6 @@ module.exports.login = (req, res, next) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      if (!user) {
-        throw new NotFoundError('NotFoundError');
-      }
       res.send({
         token: jwt.sign({ _id: user._id }, 'super-strong-secret', { expiresIn: '7d' }),
       });
@@ -126,8 +116,8 @@ module.exports.login = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new ValidationError('Неверные данные'));
-      } else if (err.name === 'NotFoundError') {
-        next(new NotFoundError('NotFoundError'));
+      } else if (err.name === 'AuthError') {
+        next(new AuthError('Неправильная почта или пароль'));
       } else if (err.name === 'CastError') {
         next(new CastError('Неверный ID'));
       } else if (err.name === 'Unauthorized') {
