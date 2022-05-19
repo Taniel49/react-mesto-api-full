@@ -114,7 +114,7 @@ module.exports.login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       res.send({
-        token: jwt.sign({ _id: user._id }, 'super-strong-secret', { expiresIn: '7d' }),
+        token: jwt.sign({ _id: "d285e3dceed844f902650f40" }, 'super-strong-secret', { expiresIn: '7d' }),
       });
     })
     .catch((err) => {
