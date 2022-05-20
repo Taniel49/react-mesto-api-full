@@ -42,8 +42,8 @@ app.post('/signup', celebrate({
 app.use('/', auth, users);
 app.use('/', auth, cards);
 // eslint-disable-next-line no-unused-vars
-router.use('*', (res, req) => {
-  throw new ValidationError('Страница не найдена');
+router.use('*', (res, req, next) => {
+  next(new ValidationError('Страница не найдена'));
 });
 app.use(errors());
 // eslint-disable-next-line no-unused-vars
