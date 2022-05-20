@@ -6,6 +6,8 @@ const {
 
 router.get('/users', getAllUsers);
 
+router.get('/users/me', getCurrentUser);
+
 router.get('/users/:userId', celebrate({
   params: Joi.object().keys({
     userId: Joi.string().hex().length(24),
@@ -25,7 +27,5 @@ router.patch('/users/me/avatar', celebrate({
     avatar: Joi.string().required().regex(/(http(s)?):\/\/(www\.)?[a-zA-Z0-9\-]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&\/=]*#?)/),
   }),
 }), patchAvatar);
-
-router.get('/users/me', getCurrentUser);
 
 module.exports = router;
