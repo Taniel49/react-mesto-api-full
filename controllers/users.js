@@ -136,7 +136,6 @@ module.exports.login = (req, res, next) => {
       } else next(err);
     });
 };
-
 module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => {
