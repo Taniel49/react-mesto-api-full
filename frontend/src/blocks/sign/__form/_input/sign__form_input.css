@@ -1,0 +1,27 @@
+.sign__form_input {
+    margin: 0 0 30px;
+    border: none;
+    border-bottom: 1px solid #CCCCCC;
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 17px;
+    background: transparent;
+    padding-bottom: 13px;
+    width: 100%;
+    color: #CCCCCC;
+}
+
+.sign__form_input:nth-child(2) {
+    margin-bottom: 216px;
+}
+
+.sign__form_input:focus {
+    outline: none;
+}
+
+.popup__inputs::placeholder {
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 17px;
+    color: #CCCCCC;
+}

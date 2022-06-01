@@ -1,0 +1,9 @@
+.element__picture{
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    max-width: 282px;
+    max-height: 282px;
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+}

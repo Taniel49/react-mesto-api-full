@@ -1,0 +1,18 @@
+.header__quit-button {
+    appearance: none;
+    background-color: transparent;
+    background-position: center;
+    padding: 0;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #A9A9A9;
+    border: none;
+    outline: none;
+}
+
+.header__quit-button:hover {
+    transition: ease-in;
+    opacity: 0.6;
+}

@@ -1,0 +1,7 @@
+.sign__form{
+    margin: 0 auto 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 358px;
+}
