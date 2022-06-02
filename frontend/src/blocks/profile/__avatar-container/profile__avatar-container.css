@@ -1,0 +1,12 @@
+.profile__avatar-container {
+    background-image: url("../../../images/Vector.svg");
+    background-color:transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    position: relative;
+    width: 100%;
+    max-width: 120px;
+    appearance: none;
+    border: none;
+    padding: 0;
+}

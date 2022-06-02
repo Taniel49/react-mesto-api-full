@@ -1,0 +1,83 @@
+
+/*  Сторонние библиотеки  */
+@import url("./vendor/normalize.css");
+
+/* Шрифты */
+@import url("./vendor/fonts-inter.css");
+
+/*  Общие стили страницы  */
+@import url("./blocks/root/root.css");
+@import url("./blocks/page/page.css");
+
+/*  header  */
+@import url("./blocks/header/header.css");
+@import url("./blocks/header/__logo/header__logo.css");
+@import url("./blocks/header/__container/header__container.css");
+@import url("./blocks/header/__login/header__login.css");
+@import url("./blocks/header/__quit-button/header__quit-button.css");
+
+/*  profile  */
+@import url("./blocks/profile/profile.css");
+@import url("./blocks/profile/__about/profile__about.css");
+@import url("./blocks/profile/__avatar/profile__avatar.css");
+@import url("./blocks/profile/__info/profile__info.css");
+@import url("./blocks/profile/__inputs/profile__inputs.css");
+@import url("./blocks/profile/__name/profile__name.css");
+@import url("./blocks/profile/__name-with-button/profile__name-with-button.css");
+@import url("./blocks/profile/__avatar-container/profile__avatar-container.css");
+
+/* element */
+@import url("./blocks/elements/elements.css");
+@import url("./blocks/element/element.css");
+@import url("./blocks/element/__caption/element__caption.css");
+@import url("./blocks/element/__name/element__name.css");
+@import url("./blocks/element/__picture/element__picture.css");
+@import url("./blocks/element/__like-number/element__like-number.css");
+@import url("./blocks/element/__like-container/element__like-container.css");
+
+@import url("./blocks/sign/sign.css");
+@import url("./blocks/sign/__form/sign__form.css");
+@import url("./blocks/sign/__form/_input/sign__form_input.css");
+@import url("./blocks/sign/__form/_submit-button/sign__form_submit-button.css");
+@import url("./blocks/sign/__header/sign__header.css");
+@import url("./blocks/sign/__registered-button/sign__registered-button.css");
+
+/*  footer  */
+@import url("./blocks/footer/footer.css");
+@import url("./blocks/copyright/copyright.css");
+
+/*  popup  */
+@import url("./blocks/popup/popup.css");
+@import url("./blocks/popup/__header/popup__header.css");
+@import url("./blocks/popup/__container/popup__container.css");
+@import url("./blocks/popup/__inputs/popup__inputs.css");
+@import url("./blocks/popup/_opened/popup_opened.css");
+@import url("./blocks/popup/__caption/popup__caption.css");
+@import url("./blocks/popup/__picture/popup__picture.css");
+@import url("./blocks/popup/__picture-container/popup__picture-container.css");
+@import url("./blocks/popup/__inputs-error/popup__inputs-error.css");
+@import url("./blocks/popup/__inputs_type_error/popup__inputs_type_error.css");
+@import url("./blocks/popup/__inputs-error/_active/popup__inputs-error_active.css");
+@import url("./blocks/popup/__inactive-submit-button/popup__inactive-submit-button.css");
+@import url("./blocks/popup/__info-tooltip/popup__info-tooltip.css");
+@import url("./blocks/popup/__info-tooltip/_caption/popup__info-tooltip_caption.css");
+@import url("./blocks/popup/__info-tooltip/_image/popup__info-tooltip_image.css");
+
+/*  кнопки  */
+@import url("./blocks/profile/__edit-button/profile__edit-button.css");
+@import url("./blocks/profile/__add-button/profile__add-button.css");
+@import url("./blocks/element/__like-button/element__like-button.css");
+@import url("./blocks/element/__delete-button/element__delete-button.css");
+@import url("./blocks/element/__delete-button/_hidden/element__delete-button_hidden.css");
+@import url("./blocks/element/__like-button/_liked/element__like-button_liked.css");
+@import url("./blocks/element/__open-picture-button/element__open-picture-button.css");
+@import url("./blocks/popup/__close-button/popup__close-button.css");
+@import url("./blocks/popup/__inactive-submit-button/popup__inactive-submit-button.css");
+@import url("./blocks/popup/__submit-button/popup__submit-button.css");
+
+/*  миксы  */
+@import url("./blocks/root/__page/root__page.css");
+@import url("./blocks/page/__header/page__header.css");
+@import url("./blocks/page/__profile/page__profile.css");
+@import url("./blocks/page/__elements/page__elements.css");
+@import url("./blocks/page/__footer/page__footer.css");
