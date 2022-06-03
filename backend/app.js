@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const { celebrate, Joi, errors } = require('celebrate');
 const router = require('express').Router();
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -18,6 +19,12 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: 'https://students.nomoredomains.xyz',
+    credentials: true,
+  }),
+);
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
