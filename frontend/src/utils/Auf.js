@@ -1,3 +1,4 @@
+import api from '../utils/api';
 export const BASE_URL = 'https://api.firstproject.students.nomoredomains.xyz';
 
 export const register = (password, email) => {
@@ -45,6 +46,7 @@ export const authorize = (password, email) => {
         .then((data) => {
             localStorage.setItem('token', data.token);
             localStorage.setItem('email', email);
+            api.setAuthorisation(data.token);
             return data;
         })
 

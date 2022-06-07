@@ -103,8 +103,13 @@ class API {
                 }
             }).then(this._checkResult)
     }
+
+    setAuthorisation(token){
+        this._authorization=token;
+    }
 }
 
-const api = new API(`https://api.firstproject.students.nomoredomains.xyz`, `b031c7a0-313e-4731-b83c-33069b14829c`);
+
+const api = new API(`https://api.firstproject.students.nomoredomains.xyz`, localStorage.getItem('token'));
 
 export default api;
