@@ -28,14 +28,14 @@ function App() {
         {
             api.getInitialCards()
                 .then((result) => {
-                    setCards(result)
+                    setCards(result.data)
                 }).catch((err) => {
                 console.log(err);
             });
 
             api.getProfile()
                 .then((result) => {
-                    setCurrentUser(result)
+                    setCurrentUser(result.data)
                 }).catch((err) => {
                 console.log(err);
             })
@@ -81,7 +81,7 @@ function App() {
 
     function handleUpdateUser(item) {
         api.patchProfile(item).then((res) => {
-            setCurrentUser(res)
+            setCurrentUser(res.data)
         }).then(() => {
             closeAllPopups()
         }).catch((err) => {
@@ -101,7 +101,7 @@ function App() {
 
     function handleAddPlaceSubmit(item) {
         api.postCard(item).then((res) => {
-            setCards([res, ...cards]);
+            setCards([res.data, ...cards]);
         }).then(() => {
             closeAllPopups()
         }).catch((err) => {

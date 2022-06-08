@@ -105,11 +105,11 @@ class API {
     }
 
     setAuthorisation(token){
-        this._authorization=token;
+        this._authorization=`Bearer ${token}`;
     }
 }
 
 
-const api = new API(`https://api.firstproject.students.nomoredomains.xyz`, localStorage.getItem('token'));
-
+const api = new API(`https://api.firstproject.students.nomoredomains.xyz`, '');
+api.setAuthorisation(localStorage.getItem('token'));
 export default api;
