@@ -195,8 +195,8 @@ function App() {
                 handleEditProfileClick={handleEditProfileClick}
                 handleAddPlaceClick={handleAddPlaceClick}
                 handleCardClick={handleCardClick}
-                handleCardLike={handleCardLike}
-                handleDeleteCard={handleDeleteCard}
+                onCardLike={handleCardLike}
+                onCardDelete={handleDeleteCard}
                 isOpenEditProfilePopup={isOpenEditProfilePopup}
                 closeAllPopups={closeAllPopups}
                 handleUpdateUser={handleUpdateUser}
