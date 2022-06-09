@@ -2,7 +2,6 @@ import React from 'react';
 import Header from "./Header";
 import SignForm from "./SignForm";
 import InfoTooltip from "./InfoTooltip";
-import Union2 from "../images/Union2.svg";
 import {useHistory} from 'react-router-dom';
 
 function Login(props) {
@@ -40,9 +39,9 @@ function Login(props) {
                           onEmailChange={handleEmailChange}
                           onPasswordChange={handlePasswordChange}
                           onSubmit={handleSubmit}/>
-                <InfoTooltip image={Union2}
+                <InfoTooltip image={props.popupPicture}
                              alt={'alt'}
-                             caption={'Что-то пошло не так! Попробуйте еще раз.'}
+                             caption={props.popupCaption}
                              isOpen={props.isOpenPopup}
                              onClose={props.closePopup}
                 />

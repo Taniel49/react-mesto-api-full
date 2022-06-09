@@ -182,6 +182,8 @@ function App() {
             </Route>
             <Route path="/sign-in">
                 <Login onLogin={handleLogin}
+                       popupPicture={popupPicture}
+                       popupCaption={popupCaption}
                        isOpenPopup={isOpenPopup}
                        closePopup={closePopup}
                 />
