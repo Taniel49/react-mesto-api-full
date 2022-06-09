@@ -126,6 +126,7 @@ function App() {
 
     function handleRegister(password, email) {
         Auf.register(password, email).then((res) => {
+            console.log(res);
             if (res) {
                 setPopupPicture(Union);
                 setPopupCaption('Вы успешно зарегистрировались!');
