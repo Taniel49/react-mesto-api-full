@@ -37,16 +37,15 @@ module.exports.deleteCard = (req, res, next) => {
       Card.findOneAndRemove({ _id: req.params.cardId })
         .then(() => {
           res.send({ data: card });
-        })
-        .catch((err) => {
-          if (err.name === 'NotFoundError') {
-            next(new NotFoundError('NotFoundError'));
-          } else if (err.name === 'CastError') {
-            next(new CastError('Неверный ID'));
-          } else if (err.name === 'ForbiddenError') {
-            next(new ForbiddenError('Нет доступа'));
-          } else next(err);
         });
+    }).catch((err) => {
+      if (err.name === 'NotFoundError') {
+        next(new NotFoundError('NotFoundError'));
+      } else if (err.name === 'CastError') {
+        next(new CastError('Неверный ID'));
+      } else if (err.name === 'ForbiddenError') {
+        next(new ForbiddenError('Нет доступа'));
+      } else next(err);
     });
 };
 
