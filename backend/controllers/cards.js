@@ -29,16 +29,16 @@ module.exports.deleteCard = (req, res, next) => {
     .then((card) => {
       if (!card) {
         throw new NotFoundError('NotFoundError');
-      } else if (card.owner !== req.user._id) {
+      } else if (!card.owner.equals(req.user._id)) {
         throw new ForbiddenError('Нет доступа');
       }
     })
-    .then((card) => {
+    .then((card) => (
       Card.findOneAndRemove({ _id: req.params.cardId })
         .then(() => {
           res.send({ data: card });
-        });
-    }).catch((err) => {
+        })
+    )).catch((err) => {
       if (err.name === 'NotFoundError') {
         next(new NotFoundError('NotFoundError'));
       } else if (err.name === 'CastError') {
