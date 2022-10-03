@@ -110,6 +110,6 @@ class API {
 }
 
 
-const api = new API(`https://api.firstproject.students.nomoredomains.xyz`, '');
+const api = new API(`https://mesto-api.onrender.com`, '');
 api.setAuthorisation(localStorage.getItem('token'));
 export default api;
