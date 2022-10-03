@@ -14,7 +14,7 @@ const {
   createUser, login,
 } = require('./controllers/users');
 
-const { PORT = 3000, BASE_PATH } = process.env;
+const { PORT = 8008, BASE_PATH } = process.env;
 
 const app = express();
 
@@ -22,14 +22,22 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   cors({
-    origin: 'https://firstproject.students.nomoredomains.xyz',
+    origin: 'https://mesto-frontend.onrender.com',
     credentials: true,
   }),
 );
 
-mongoose.connect('mongodb://localhost:27017/mestodb', {
-  useNewUrlParser: true,
-});
+mongoose.connect(
+  'mongodb://SG-sheer-noodle-2009-54214.servers.mongodirector.com:27017/admin',
+  {
+    useNewUrlParser: true,
+    auth: {
+      authdb: 'admin',
+      username: 'admin',
+      password: 'ax1MaHzlVbqecX0T',
+    },
+  },
+);
 
 app.use(requestLogger);
 app.get('/crash-test', () => {
