@@ -9,7 +9,6 @@ const AuthError = require('../errors/AufError');
 const ConflictError = require('../errors/ConflictError');
 
 module.exports.createUser = (req, res, next) => {
-  console.log('user');
   const {
     name,
     about,
