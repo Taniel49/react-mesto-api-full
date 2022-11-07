@@ -28,7 +28,7 @@ app.use(
 );
 
 mongoose.connect(
-  'mongodb://admin:SG-somber-hyssop-3510-54812.servers.mongodirector.com:27017/admin',
+  'mongodb://SG-somber-hyssop-3510-54812.servers.mongodirector.com:27017/admin',
   {
     useNewUrlParser: true,
     auth: {
