@@ -28,13 +28,13 @@ app.use(
 );
 
 mongoose.connect(
-  'mongodb://SG-sheer-noodle-2009-54214.servers.mongodirector.com:27017/admin',
+  'mongodb://admin:SG-somber-hyssop-3510-54812.servers.mongodirector.com:27017/admin',
   {
     useNewUrlParser: true,
     auth: {
       authdb: 'admin',
       username: 'admin',
-      password: 'ax1MaHzlVbqecX0T',
+      password: 'PtqTTQdPrCsfCwvU',
     },
   },
 );
